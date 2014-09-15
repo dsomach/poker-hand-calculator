@@ -1,6 +1,8 @@
 class Card
   attr_accessor :value, :suit
-  
+
+  # value in  ['A', 2, 3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K']
+  # suit in  ['club', 'diamond', 'heart', 'spade']
   def initialize(value, suit)
     @value = value
     @suit = suit
@@ -20,7 +22,7 @@ class Hand
                    'Two Pair' => :two_pair?,
                    'Pair' => :pair?}
 
-  def initialize(cards)
+  def initialize(cards = random_hand)
     @cards = cards
   end
 
@@ -28,6 +30,9 @@ class Hand
   # As soon as we have a match, return the hand name (as it is the highest scoring hand).
   # If no hands match, the best hand is 'High Card' :(
   def best_hand
+
+    #TODO enforce a 5-card hand
+
     WINNING_ORDER.each do |hand_name, hand_method|
       return hand_name if self.send(hand_method)
     end
@@ -37,8 +42,24 @@ class Hand
 
   private
 
+  def random_hand
+    #TODO implement random hand generation
+  end
+
+  # Hand matching helper methods: one_suit?, card_values
+  def one_suit?
+    @cards.uniq{|card| card.suit}.count == 1
+  end
+
+  # Return a list of the card values
+  def card_values
+    @cards.collect{|card| card.value}
+  end
+
+  # Ace through 10 of the same suit
   def royal_flush?
-    return false
+    has_royal_flush_values = (['A', 'K', 'Q', 'J', 10] - card_values).count == 0
+    return has_royal_flush_values && one_suit?
   end
 
   def straight_flush?
