@@ -110,31 +110,38 @@ class Hand
   end
 
   def four_of_a_kind?
-    return false
+    counts = array_counts(card_values).values
+    return counts.include?(4)
   end
 
   def full_house?
-    return false
+    counts = array_counts(card_values).values
+    return counts.include?(3) && counts.include?(2)
   end
 
   def flush?
-    return false
+    return one_suit?
   end
 
   def straight?
-    return false
+    return run_of_five?
   end
 
   def three_of_a_kind?
-    return false
+    counts = array_counts(card_values).values
+    return counts.include?(3)
   end
 
+  # To find if a hand has two separate pairs, look at the counts array to see if
+  # we have two values which appear twice.
   def two_pair?
-    return false
+    counts = array_counts(card_values).values
+    return counts.count(2) == 2
   end
 
   def pair?
-    return false
+    counts = array_counts(card_values).values
+    return counts.include?(2)
   end
 end
 
