@@ -1,8 +1,10 @@
 # A venerable poker hand calculator.
 
 ## Usage:
+```ruby
 cards = [Card.new(*value*, *suit*)]*5
 best_poker_hand(cards)
+```
 
 ## Example for royal flush:
 
