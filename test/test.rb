@@ -102,4 +102,12 @@ class TestWinningHands < Test::Unit::TestCase
     assert_equal(best_poker_hand(cards), "High Card")
   end
   
+  def test_invalid_hand_length
+    cards = [Card.new(10, 'hearts'),
+             Card.new('A', 'hearts'),
+             Card.new('K', 'hearts'),
+             Card.new(6, 'diamonds')]
+
+    assert_equal(best_poker_hand(cards), "Valid hand must have 5 cards.")
+  end
 end

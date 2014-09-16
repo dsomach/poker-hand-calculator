@@ -8,7 +8,7 @@ def best_poker_hand(cards)
   begin
     Hand.new(cards).best_hand
   rescue Hand::HandSizeError
-    puts "Valid hand must have 5 cards."
+    return "Valid hand must have 5 cards."
   end
 end
 
