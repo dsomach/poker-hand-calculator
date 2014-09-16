@@ -7,7 +7,7 @@ class Card
                 'K' => 13}
 
   # value in  ['A', 2, 3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K']
-  # suit in  ['club', 'diamond', 'heart', 'spade']
+  # suit in  ['clubs', 'diamonds', 'hearts', 'spades']
   def initialize(value, suit)
     @value = value
     @suit = suit
@@ -154,5 +154,20 @@ class Hand
   end
 end
 
-def best_hand(hand)
+# Usage:
+# cards = [Card.new(*value*, *suit*)]*5
+# best_poker_hand(cards)
+def best_poker_hand(cards)
+  Hand.new(cards).best_hand
+end
+
+# Example for royal flush:
+def royal_flush
+  cards = [Card.new('Q', 'spades'),
+           Card.new('K', 'spades'),
+           Card.new(10, 'spades'),
+           Card.new('J', 'spades'),
+           Card.new('A', 'spades')]
+
+  puts best_poker_hand(cards)
 end
