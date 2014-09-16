@@ -6,7 +6,7 @@ best_poker_hand(cards)
 
 ## Example for royal flush:
 
-'''ruby
+```ruby
 def royal_flush
   cards = [Card.new('Q', 'spades'),
            Card.new('K', 'spades'),
@@ -16,4 +16,4 @@ def royal_flush
 
   puts best_poker_hand(cards)
 end
-'''
+```

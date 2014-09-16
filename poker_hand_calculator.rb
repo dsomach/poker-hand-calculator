@@ -1,5 +1,5 @@
-require './lib/card.rb'
-require './lib/hand.rb'
+require_relative 'lib/card.rb'
+require_relative 'lib/hand.rb'
 
 # Usage:
 # cards = [Card.new(*value*, *suit*)]*5
