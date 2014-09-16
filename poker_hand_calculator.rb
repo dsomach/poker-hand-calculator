@@ -53,9 +53,8 @@ class Hand
 
   private
 
-  def random_hand
-    #TODO implement random hand generation
-  end
+  ##### BEGIN HELPER METHODS FOR WINNING CARD MATCHING
+  #####
 
   # Hand matching helper methods: one_suit?, card_values
   def one_suit?
@@ -99,34 +98,43 @@ class Hand
     counts
   end
 
+  ##### BEGIN METHODS FOR WINNING HAND MATCHING
+  #####
+
   # Ace through 10 of the same suit
   def royal_flush?
     has_royal_flush_values = (['A', 'K', 'Q', 'J', 10] - card_values).count == 0
     return has_royal_flush_values && one_suit?
   end
 
+  # Any five-card sequence in the same suit
   def straight_flush?
     return run_of_five? && one_suit?
   end
 
+  # All four cards of the same rank
   def four_of_a_kind?
     counts = array_counts(card_values).values
     return counts.include?(4)
   end
 
+  # Three of a kind combined with a pair
   def full_house?
     counts = array_counts(card_values).values
     return counts.include?(3) && counts.include?(2)
   end
 
+  # Any five cards of the same suit, but not in sequence
   def flush?
     return one_suit?
   end
 
+  # Five cards in sequence, but not in the same suit
   def straight?
     return run_of_five?
   end
 
+  # Three cards of the same rank
   def three_of_a_kind?
     counts = array_counts(card_values).values
     return counts.include?(3)
@@ -139,12 +147,12 @@ class Hand
     return counts.count(2) == 2
   end
 
+  # Two cards of the same rank
   def pair?
     counts = array_counts(card_values).values
     return counts.include?(2)
   end
 end
-
 
 def best_hand(hand)
 end
