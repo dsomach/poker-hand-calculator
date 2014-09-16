@@ -1,6 +1,8 @@
 class Hand
   attr_accessor :cards
 
+  class HandSizeError < StandardError;;end
+
   WINNING_ORDER = {'Royal Flush' => :royal_flush?,
                    'Straight Flush' => :straight_flush?,
                    'Four of a Kind' => :four_of_a_kind?,
@@ -11,7 +13,8 @@ class Hand
                    'Two Pair' => :two_pair?,
                    'Pair' => :pair?}
 
-  def initialize(cards = random_hand)
+  def initialize(cards)
+    raise HandSizeError if cards.length != 5
     @cards = cards
   end
 
@@ -19,9 +22,6 @@ class Hand
   # As soon as we have a match, return the hand name (as it is the highest scoring hand).
   # If no hands match, the best hand is 'High Card' :(
   def best_hand
-
-    #TODO enforce a 5-card hand
-
     WINNING_ORDER.each do |hand_name, hand_method|
       return hand_name if self.send(hand_method)
     end

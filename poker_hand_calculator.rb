@@ -5,7 +5,11 @@ require_relative 'lib/hand.rb'
 # cards = [Card.new(*value*, *suit*)]*5
 # best_poker_hand(cards)
 def best_poker_hand(cards)
-  Hand.new(cards).best_hand
+  begin
+    Hand.new(cards).best_hand
+  rescue Hand::HandSizeError
+    puts "Valid hand must have 5 cards."
+  end
 end
 
 # Example for royal flush:
