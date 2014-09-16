@@ -1,13 +1,24 @@
 class Card
   attr_accessor :value, :suit
 
+  NUMBER_VAL = {'A' => [1, 14],
+                'J' => 11,
+                'Q' => 12,
+                'K' => 13}
+
   # value in  ['A', 2, 3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K']
   # suit in  ['club', 'diamond', 'heart', 'spade']
   def initialize(value, suit)
     @value = value
     @suit = suit
   end
+
+  # Return the numberical value of the card (convert ace/face card to value)
+  def number_value
+    NUMBER_VAL[@value] || @value
+  end
 end
+
 
 class Hand
   attr_accessor :cards
@@ -56,6 +67,38 @@ class Hand
     @cards.collect{|card| card.value}
   end
 
+  # Return a list of the card's number values
+  # Ace is high or low, so return 1 AND 14 in the case of an Ace
+  def card_number_values
+    @cards.collect{|card| card.number_value}.flatten.sort
+  end
+
+  # Figure out if the hand has a (consecutive) run of length 5.
+  # We take the numerical values of the cards and sort them, so
+  # subtracting the array index from the card value will give repeating
+  # numbers in the case of a run.
+  # Then, we can reuse our code for checking for number of cards with same rank.
+  # (value_counts is the array of counts of these repeated numbers, so we check
+  # for five repeated numbers in order to find a run of five.)
+  def run_of_five?
+    index_adjusted = []
+    card_number_values.each_with_index do |card_value, index|
+      index_adjusted << (card_value - index)
+    end
+
+    value_counts = array_counts(index_adjusted).values
+    value_counts.include?(5)
+  end
+
+  # Build a hash which represents card value counters.
+  # (Used to find cards of repeating value/rank.)
+  # The key is the card value, and the value is the number of times it occurs in the hand.
+  def array_counts(array)
+    counts = Hash.new(0)
+    array.each{|val| counts[val] += 1}
+    counts
+  end
+
   # Ace through 10 of the same suit
   def royal_flush?
     has_royal_flush_values = (['A', 'K', 'Q', 'J', 10] - card_values).count == 0
@@ -63,7 +106,7 @@ class Hand
   end
 
   def straight_flush?
-    return false
+    return run_of_five? && one_suit?
   end
 
   def four_of_a_kind?
